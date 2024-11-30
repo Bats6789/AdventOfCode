@@ -1,3 +1,4 @@
+############################## C ###################################
 # Prerequisites
 *.d
 
@@ -50,3 +51,28 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# clangd
+.cache
+compile_commands.json
+
+############################ CMAKE #################################
+# CMake files
+build
+
+########################### PYTHON #################################
+# Virtual Environments
+.env
+.venv
+env
+venv
+
+########################### CONFIG #################################
+# Session files
+*.ses
+
+# Input files
+input*
+
+# Examples
+Examples*
