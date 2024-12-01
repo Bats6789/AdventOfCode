@@ -7,8 +7,7 @@
 import argparse
 import subprocess
 import sys
-from os import path
-from os import mkdir
+from os import path, chdir, mkdir, system
 from shutil import copyfile
 
 
@@ -37,13 +36,24 @@ def main():
     # Setup path and files
     mkdir(dirName)
     dataFileName = path.join(dirName, 'input.txt')
-    scriptFileName = path.join(dirName, 'Part1.py')
-    copyfile('template.py', scriptFileName)
+    part1FileName = path.join(dirName, 'Part1.c')
+    part2FileName = path.join(dirName, 'Part2.c')
+    buildFileName = path.join(dirName, 'CMakeLists.txt')
+    copyfile('template.c', part1FileName)
+    copyfile('template.c', part2FileName)
+    copyfile('CMakeLists.txt.tmp', buildFileName)
+
+    # Setup build
+    buildDir = path.join(dirName, 'build')
+    mkdir(buildDir)
 
     output = output.decode('utf-8')
     dataFile = open(dataFileName, 'w')
     print(output, end='', file=dataFile)
     print('\n'.join(output.split('\n')[:10]), file=sys.stderr)
+
+    chdir(dirName)
+    system('cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -G"Unix Makefiles"')
 
     return 0
 
