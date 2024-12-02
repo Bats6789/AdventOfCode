@@ -7,7 +7,7 @@ def main():
 
     count = 0
     for line in data.split('\n'):
-        reports = line.splitc
+        reports = line.split()
         skip = False
         climb = 0
         for a, b in zip(reports[:-1], reports[1:]):
