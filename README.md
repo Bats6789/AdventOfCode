@@ -2,17 +2,20 @@
 Solutions to Advent of code problems
 
 # 2024
-## Python `2/50 🌟`
+## Python `4/50 🌟`
 
 * [Day01](2024/python/Day01): `2/2 🌟`
+* [Day02](2024/python/Day02): `2/2 🌟`
 
-## C `2/50 🌟`
+## C `4/50 🌟`
 
 * [Day01](2024/c/Day01): `2/2 🌟`
+* [Day02](2024/c/Day02): `2/2 🌟`
 
-## Rust `2/50 🌟`
+## Rust `4/50 🌟`
 
 * [Day01](2024/rust/Day01): `2/2 🌟`
+* [Day02](2024/rust/Day02): `2/2 🌟`
 
 # 2023
 ## Python `50/50 🌟`
