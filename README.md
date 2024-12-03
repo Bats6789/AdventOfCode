@@ -2,10 +2,11 @@
 Solutions to Advent of code problems
 
 # 2024
-## Python `4/50 🌟`
+## Python `6/50 🌟`
 
 * [Day01](2024/python/Day01): `2/2 🌟`
 * [Day02](2024/python/Day02): `2/2 🌟`
+* [Day03](2024/python/Day03): `2/2 🌟`
 
 ## C `4/50 🌟`
 
