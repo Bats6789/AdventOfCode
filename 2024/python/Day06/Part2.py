@@ -2,43 +2,47 @@ import sys
 
 
 def search(grid, x, y, width, height):
-    avoid = ['#', 'O']
     dir = 'up'
-    seen = []
+    seen = set()
     while 0 <= x < width and 0 <= y < height:
-        if dir == 'up':
-            if y == 0:
-                break
-            if grid[y - 1][x] in avoid:
-                dir = 'right'
-            else:
-                y -= 1
-        if dir == 'down':
-            if y == height - 1:
-                break
-            if grid[y + 1][x] in avoid:
-                dir = 'left'
-            else:
-                y += 1
-        if dir == 'right':
-            if x == width - 1:
-                break
-            if grid[y][x + 1] in avoid:
-                dir = 'down'
-            else:
-                x += 1
-        if dir == 'left':
-            if x == 0:
-                break
-            if grid[y][x - 1] in avoid:
-                dir = 'up'
-            else:
-                x -= 1
-
-        if (x, y, dir) in seen:
-            return True
-        else:
-            seen.append((x, y, dir))
+        point = (x, y, dir)
+        match dir:
+            case 'up':
+                if y > 0 and grid[y - 1][x] == '#':
+                    if point in seen:
+                        return True
+                    else:
+                        seen.add(point)
+                    dir = 'right'
+                else:
+                    y -= 1
+            case 'down':
+                if y < height - 1 and grid[y + 1][x] == '#':
+                    if point in seen:
+                        return True
+                    else:
+                        seen.add(point)
+                    dir = 'left'
+                else:
+                    y += 1
+            case 'right':
+                if x < width - 1 and grid[y][x + 1] == '#':
+                    if point in seen:
+                        return True
+                    else:
+                        seen.add(point)
+                    dir = 'down'
+                else:
+                    x += 1
+            case 'left':
+                if x > 0 and grid[y][x - 1] == '#':
+                    if point in seen:
+                        return True
+                    else:
+                        seen.add(point)
+                    dir = 'up'
+                else:
+                    x -= 1
 
     return False
 
@@ -59,9 +63,44 @@ def main():
             x = line.index('^')
             break
 
+    grid[y][x] = 'X'
+    dir = 'up'
+
+    ys = y
+    xs = x
+
+    while 0 <= x < width and 0 <= y < height:
+        if grid[y][x] == '.':
+            grid[y][x] = 'X'
+
+        match dir:
+            case 'up':
+                if y > 0 and grid[y - 1][x] == '#':
+                    dir = 'right'
+                else:
+                    y -= 1
+            case 'down':
+                if y < height - 1 and grid[y + 1][x] == '#':
+                    dir = 'left'
+                else:
+                    y += 1
+            case 'right':
+                if x < width - 1 and grid[y][x + 1] == '#':
+                    dir = 'down'
+                else:
+                    x += 1
+            case 'left':
+                if x > 0 and grid[y][x - 1] == '#':
+                    dir = 'up'
+                else:
+                    x -= 1
+
+    x = xs
+    y = ys
+
     for yp in range(height):
         for xp in range(width):
-            if grid[yp][xp] == '.':
+            if grid[yp][xp] == 'X':
                 grid[yp][xp] = '#'
                 if search(grid, x, y, width, height):
                     count += 1
