@@ -56,7 +56,7 @@ Solutions to Advent of code problems
 * [Day24](2023/python/Day24): `2/2 🌟`
 * [Day25](2023/python/Day25): `2/2 🌟`
 
-## C `48/50 🌟`
+## C `50/50 🌟`
 * [Day01](2023/C/Day01): `2/2 🌟`
 * [Day02](2023/C/Day02): `2/2 🌟`
 * [Day03](2023/C/Day03): `2/2 🌟`
@@ -81,3 +81,4 @@ Solutions to Advent of code problems
 * [Day22](2023/C/Day22): `2/2 🌟`
 * [Day23](2023/C/Day23): `2/2 🌟`
 * [Day24](2023/C/Day24): `2/2 🌟`
+* [Day25](2023/C/Day25): `2/2 🌟`
