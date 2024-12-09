@@ -11,5 +11,3 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "..")
 
 # add the executable
 ADD_EXECUTABLE(Part1 Part1.c)
-
-ADD_EXECUTABLE(Part2 Part2.c)

@@ -1,13 +1,14 @@
 /*
  * Name: Part1.c
  * Auth: Blake Wingard - bats23456789@gmail.com
- * Desc: Part 1 for day 1 of AOC.
+ * Desc: Part 1 for day 25 of AOC.
  * Vers: 1.0.0 12/25/2023 CBW - Original code.
  */
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define NODE_NAME_SZ 4
 
@@ -32,6 +33,11 @@ typedef struct string {
 	size_t len;
 	size_t cap;
 } string_t;
+
+typedef struct list {
+	node_name name;
+	struct list *next;
+} list_t;
 
 void add_node(graph_t *graph, const node_name node);
 void add_edge(graph_t *graph, const node_name start, const node_name stop);
@@ -95,8 +101,15 @@ int main(int argc, char **argv) {
 		}
 	}
 	free_str(&string);
+	fclose(file);
 
+	srand(time(NULL));
 	edge_sz = minimum_edge_cut(graph, &edges);
+	while (edge_sz != 3) {
+		free(edges);
+		edges = NULL;
+		edge_sz = minimum_edge_cut(graph, &edges);
+	}
 
 	if (edge_sz != 3) {
 		fprintf(stderr, "Failed to only find 3 edges\nFound: %zu\n", edge_sz);
@@ -108,6 +121,11 @@ int main(int argc, char **argv) {
 	}
 	graphs_sz = connected_components(graph, &graphs);
 
+	if (graphs_sz != 2) {
+		fprintf(stderr, "Failed to split graph into 2. Got %zu graphs instead\n", graphs_sz);
+		exit(EXIT_FAILURE);
+	}
+
 	printf("%zu\n", graphs[0].node_sz * graphs[1].node_sz);
 
 	free_graph(&graph);
@@ -115,6 +133,7 @@ int main(int argc, char **argv) {
 		free_graph(graphs + i);
 	}
 	free(graphs);
+	free(edges);
 
     return EXIT_SUCCESS;
 }
@@ -271,51 +290,165 @@ void dft(graph_t graph, size_t index, size_t parent, int *disc, int *low, bool *
 	}
 }
 
+bool in_list(list_t *list, const node_name name) {
+	if (list == NULL) {
+		return false;
+	}
+
+	return strncmp(list->name, name, NODE_NAME_SZ) == 0 || in_list(list->next, name);
+}
+
+void append_list(list_t *left, list_t *right) {
+	while (left->next != NULL) {
+		left = left->next;
+	}
+
+	left->next = right;
+}
+
 size_t minimum_edge_cut(graph_t graph, edge_t **edges) {
 	edge_t edge;
-	size_t ap_sz = 0;
-	int *disc;
-	int *low;
-	bool *visited;
-	bool *ap;
 	size_t edge_sz = 0;
 	size_t edge_max = 10;
+	graph_t dup_graph;
+	size_t rand_ind = 0;
+	list_t **node_list = NULL;
+	size_t list_max = 10;
+	size_t list_sz = 0;
+	ssize_t left_list = -1;
+	ssize_t right_list = -1;
+	bool compress = false;
 
-	disc = malloc(sizeof *disc * graph.node_sz);
-	low = malloc(sizeof *low * graph.node_sz);
-	visited = malloc(sizeof *visited * graph.node_sz);
-	ap = malloc(sizeof *ap * graph.edge_sz);
+	// duplicate graph
+	dup_graph.edge_sz = graph.edge_sz;
+	dup_graph.edge_max = graph.edge_max;
+	dup_graph.node_sz = graph.node_sz;
+	dup_graph.node_max = graph.node_max;
 
-	for (size_t i = 0; i < graph.node_sz; ++i) {
-		disc[i] = -1;
-		low[i] = -1;
-		visited[i] = false;
-	}
+	dup_graph.nodes = malloc(sizeof *dup_graph.nodes * dup_graph.node_max);
+	dup_graph.edges = malloc(sizeof *dup_graph.edges * dup_graph.edge_max);
 
-	for (size_t i = 0; i < graph.edge_sz; ++i) {
-		ap[i] = false;
-	}
+	node_list = malloc(sizeof *node_list * list_max);
+	memset(node_list, 0, sizeof *node_list * list_max);
 
-	dft(graph, 0, 0, disc, low, visited, ap);
+	memcpy(dup_graph.nodes, graph.nodes, sizeof *graph.nodes * graph.node_sz);
+	memcpy(dup_graph.edges, graph.edges, sizeof *graph.edges * graph.edge_sz);
 
-	for (size_t i = 0; i < graph.node_sz; ++i) {
-		fprintf(stderr, "low[%zu]: %s = %d\n", i, graph.nodes[i], low[i]);
-	}
+	// compress nodes to two
+	while (list_sz + dup_graph.node_sz > 2) {
+		rand_ind = rand() % dup_graph.edge_sz;
 
-	*edges = malloc(sizeof **edges * edge_max);
+		edge = dup_graph.edges[rand_ind];
 
-	for (size_t i = 0; i < graph.edge_sz; ++i) {
-		if (ap[i]) {
-			edge_cpy(*edges + edge_sz++, graph.edges + i);
+		left_list = -1;
+		right_list = -1;
 
-			if (edge_sz >= edge_max) {
-				edge_max *= 2;
-				*edges = realloc(*edges, sizeof **edges * edge_max);
+		bool swap = false;
+
+		for (ssize_t i = 0; i < list_sz && (left_list == -1 || right_list == -1); ++i) {
+			if (left_list == -1 && in_list(node_list[i], edge.a)) {
+				left_list = i;
 			}
+			if (right_list == -1 && in_list(node_list[i], edge.b)) {
+				right_list = i;
+			}
+		}
+
+
+		if (left_list != -1 && right_list != -1 && left_list > right_list || left_list == -1) {
+			ssize_t tmp = left_list;
+			left_list = right_list;
+			right_list = tmp;
+			swap = true;
+		}
+
+
+		if (left_list != right_list && left_list != -1 && right_list != -1) {
+			append_list(node_list[left_list], node_list[right_list]);
+
+			for (size_t i = right_list; i < list_sz - 1; ++i) {
+				node_list[i] = node_list[i + 1];
+			}
+
+			list_sz--;
+		} else if (left_list != -1 && left_list != right_list) {
+			list_t *tmp = node_list[left_list];
+
+			while (tmp->next != NULL) {
+				tmp = tmp->next;
+			}
+
+			tmp->next = malloc(sizeof *tmp);
+			tmp = tmp->next;
+			tmp->next = NULL;
+			strncpy(tmp->name, swap ? edge.a : edge.b, NODE_NAME_SZ);
+
+			dup_graph.node_sz--;
+		} else if(left_list == -1 && right_list == -1) {
+			node_list[list_sz] = malloc(sizeof **node_list);
+
+			strncpy(node_list[list_sz]->name, edge.a, NODE_NAME_SZ);
+			node_list[list_sz]->next = malloc(sizeof **node_list);
+
+			strncpy(node_list[list_sz]->next->name, edge.b, NODE_NAME_SZ);
+			node_list[list_sz]->next->next = NULL;
+
+			list_sz++;
+			dup_graph.node_sz -= 2;
+		}
+
+		if (list_sz >= list_max) {
+			list_max += 10;
+			node_list = realloc(node_list, sizeof *node_list * list_max);
+		}
+
+		remove_edge(&dup_graph, edge);
+	}
+
+	// remove loops
+	do {
+		compress = false;
+
+		for (size_t i = 0; i < dup_graph.edge_sz && !compress; ++i) {
+			left_list = -1;
+			right_list = -1;
+			edge = dup_graph.edges[i];
+
+			for (size_t j = 0; j < list_sz && (left_list == -1 || right_list == -1); ++j) {
+				if (left_list == -1 && in_list(node_list[j], edge.a)) {
+					left_list = j;
+				}
+				if (right_list == -1 && in_list(node_list[j], edge.b)) {
+					right_list = j;
+				}
+			}
+
+			if (left_list == right_list && left_list != -1) {
+				remove_edge(&dup_graph, edge);
+				compress = true;
+			}
+		}
+	} while(compress);
+
+	edge_sz = dup_graph.edge_sz;
+	*edges = malloc(sizeof **edges * edge_sz);
+	for (size_t i = 0; i < edge_sz; ++i) {
+		(*edges)[i] = dup_graph.edges[i];
+	}
+
+	for (size_t i = 0; i < list_sz; ++i) {
+		list_t *tmp = node_list[i];
+		list_t *next;
+
+		while (tmp) {
+			next = tmp->next;
+			free(tmp);
+			tmp = next;
 		}
 	}
 
-	*edges = realloc(*edges, sizeof **edges * edge_sz);
+	free(node_list);
+	free_graph(&dup_graph);
 
 	return edge_sz;
 }
@@ -451,6 +584,8 @@ size_t connected_components(graph_t source, graph_t **graphs) {
     }
 
     *graphs = realloc(*graphs, sizeof **graphs * graphs_count);
+
+	free(visited);
 
     return graphs_count;
 }
