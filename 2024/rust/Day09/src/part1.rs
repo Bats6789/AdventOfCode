@@ -55,12 +55,12 @@ fn main() -> io::Result<()> {
 
             while j > i {
                 if !disk[j].free {
-                    if disk[j].rep == disk[i].rep {
+                    if disk[j].rep >= disk[i].rep {
                         disk[i].id = disk[j].id;
                         disk[i].free = false;
-                        disk[j].free = true;
+                        disk[j].rep -= disk[i].rep;
                         break;
-                    } else if disk[j].rep < disk[i].rep {
+                    } else {
                         let tmp = disk[j];
                         disk[j].free = true;
                         disk[i].rep -= disk[j].rep;
@@ -78,8 +78,7 @@ fn main() -> io::Result<()> {
     i = 0;
     for item in disk {
         if item.free {
-            i += item.rep;
-            continue;
+            break;
         }
 
         for _ in 0..item.rep {
