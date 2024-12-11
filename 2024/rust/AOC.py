@@ -28,19 +28,18 @@ def main():
 
     # Directory validation
     dirName = f'Day{args.day:02d}'
-    if path.isdir(dirName):
-        return 0
 
     # Start collection input
     cmd = f'curl https://adventofcode.com/{args.year}/day/{args.day}/input --cookie "session={SESSION}"'
     output = subprocess.check_output(cmd, shell=True)
 
     # Setup path and files
-    # mkdir(dirName)
-    system(f'cargo init {dirName}')
+    if not path.isdir(dirName):
+        system(f'cargo init {dirName}')
+        scriptFileName = path.join(dirName, path.join('src', 'main.rs'))
+        copyfile('template.rs', scriptFileName)
+
     dataFileName = path.join(dirName, 'input.txt')
-    scriptFileName = path.join(dirName, path.join('src', 'main.rs'))
-    copyfile('template.rs', scriptFileName)
 
     output = output.decode('utf-8')
     dataFile = open(dataFileName, 'w')
