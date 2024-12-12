@@ -17,7 +17,7 @@ Solutions to Advent of code problems
 * [Day11](2024/python/Day11): `2/2 🌟`
 * [Day12](2024/python/Day12): `2/2 🌟`
 
-## C `22/50 🌟`
+## C `24/50 🌟`
 
 * [Day01](2024/c/Day01): `2/2 🌟`
 * [Day02](2024/c/Day02): `2/2 🌟`
@@ -30,8 +30,9 @@ Solutions to Advent of code problems
 * [Day09](2024/c/Day09): `2/2 🌟`
 * [Day10](2024/c/Day10): `2/2 🌟`
 * [Day11](2024/c/Day11): `2/2 🌟`
+* [Day12](2024/c/Day12): `2/2 🌟`
 
-## Rust `22/50 🌟`
+## Rust `24/50 🌟`
 
 * [Day01](2024/rust/Day01): `2/2 🌟`
 * [Day02](2024/rust/Day02): `2/2 🌟`
@@ -44,6 +45,7 @@ Solutions to Advent of code problems
 * [Day09](2024/rust/Day09): `2/2 🌟`
 * [Day10](2024/rust/Day10): `2/2 🌟`
 * [Day11](2024/rust/Day11): `2/2 🌟`
+* [Day12](2024/rust/Day12): `2/2 🌟`
 
 # 2023
 ## Python `50/50 🌟`
