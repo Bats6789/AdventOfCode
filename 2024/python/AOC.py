@@ -35,10 +35,10 @@ def main():
     # Setup path and files
     if not path.isdir(dirName):
         mkdir(dirName)
-        dataFileName = path.join(dirName, 'input.txt')
         scriptFileName = path.join(dirName, 'Part1.py')
         copyfile('template.py', scriptFileName)
 
+    dataFileName = path.join(dirName, 'input.txt')
     output = output.decode('utf-8')
     dataFile = open(dataFileName, 'w')
     print(output, end='', file=dataFile)

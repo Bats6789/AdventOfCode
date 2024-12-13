@@ -1,28 +1,17 @@
 import sys
-
-
-sys.setrecursionlimit(10**7)
-
-
-dp = {}
+import numpy as np
 
 
 def get_wins(prize, a, b):
-    if prize in dp:
-        return dp[prize]
+    coef = np.array([a, b]).T
+    res = np.linalg.solve(coef, prize)
+    res = np.round(res).astype(int)
 
-    if prize[0] == 0 and prize[1] == 0:
-        return 0
+    return 3 * res[0] + res[1] if np.all(np.matmul(coef, res) == prize) else 0
 
-    if prize[0] < 0 or prize[1] < 0:
-        return 10**10
 
-    a_val = 3 + get_wins((prize[0] - a[0], prize[1] - a[1]), a, b)
-    b_val = 1 + get_wins((prize[0] - b[0], prize[1] - b[1]), a, b)
-    ans = min(a_val, b_val)
-
-    dp[prize] = ans
-    return ans
+def parse(line):
+    return np.array((tuple(int(s[2:]) for s in line.split(': ')[1].split(', '))))
 
 
 def main():
@@ -34,27 +23,10 @@ def main():
     total = 0
 
     for game in games:
-        a, b, prize = game.split('\n')
-        a = a.split(': ')[1]
-        left, right = a.split(', ')
-        left = int(left[2:])
-        right = int(right[2:])
-        a = (left, right)
-        b = b.split(': ')[1]
-        left, right = b.split(', ')
-        left = int(left[2:])
-        right = int(right[2:])
-        b = (left, right)
-        prize = prize.split(': ')[1]
-        left, right = prize.split(', ')
-        left = int(left[2:])
-        right = int(right[2:])
-        prize = (left, right)
-        global dp
-        dp = {}
+        a, b, prize = map(parse, game.split('\n'))
+        prize += 10000000000000
         ans = get_wins(prize, a, b)
-        if ans < 10**9:
-            total += ans
+        total += ans
 
     print(total)
     return 0
