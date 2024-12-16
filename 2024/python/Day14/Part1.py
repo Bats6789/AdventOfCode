@@ -1,16 +1,6 @@
 import sys
 
 
-def print_robots(robots):
-    grid = list(list(' ' for _ in range(101)) for _ in range(103))
-
-    for robot in robots:
-        p, _ = robot
-        grid[p[1]][p[0]] = '#'
-
-    print('\n'.join("".join(line) for line in grid))
-
-
 def main():
     file = sys.argv[1] if len(sys.argv) > 1 else 'input.txt'
     data = open(file).read().strip()
@@ -29,7 +19,7 @@ def main():
 
     height = 103
     width = 101
-    for num in range(10000):
+    for _ in range(100):
         for i, robot in enumerate(robots):
             p, v = robot
             p[0] += v[0]
@@ -42,8 +32,6 @@ def main():
                 p[1] = height + p[1]
             elif p[1] >= height:
                 p[1] = p[1] - height
-        print(num)
-        print_robots(robots)
 
     tl = 0
     tr = 0
@@ -63,7 +51,7 @@ def main():
                 br += 1
 
     # print(tl, tr, bl, br)
-    # print(tl * tr * bl * br)
+    print(tl * tr * bl * br)
     return 0
 
 
