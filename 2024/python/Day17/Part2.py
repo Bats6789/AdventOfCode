@@ -2,11 +2,7 @@ import sys
 
 
 def get_chunks(program, regA, regB, regC, checked_chunks):
-    if len(checked_chunks) == 0:
-        out = run_prog(program, regA, regB, regC)
-        for p, o in zip(program, out):
-            if p != o:
-                return regA, False
+    if checked_chunks == []:
         return regA, True
 
     chunk = int(checked_chunks[0])
@@ -14,8 +10,7 @@ def get_chunks(program, regA, regB, regC, checked_chunks):
     for i in range(8):
         tmp = (regA << 3) + i
 
-        check = ((i ^ 4) ^ (tmp // 2**(i ^ 1))) % 8
-        # print(f"{chunk}:{i} <> {tmp}:{check}")
+        check = ((i ^ 4) ^ (tmp >> (i ^ 1))) % 8
         if check == chunk:
             val, res = get_chunks(program, tmp, regB, regC, checked_chunks[1:])
             if res:
@@ -62,9 +57,6 @@ def run_prog(program, regA, regB, regC):
             case 4:
                 regB = regB ^ regC
             case 5:
-                # if first:
-                #     first = False
-                #     print(',', end='')
                 out.append(get_combo(combo, regA, regB, regC) % 8)
             case 6:
                 combo = get_combo(combo, regA, regB, regC)
@@ -85,18 +77,11 @@ def main():
     regB = int(regB.split(': ')[1])
     regC = int(regC.split(': ')[1])
 
-    # print(regA, regB, regC)
-
     program = program.split(': ')[1]
     program = program.split(',')
 
     regA, res = get_chunks(program, 0, regB, regC, list(reversed(program)))
 
-    out = run_prog(program, regA, regB, regC)
-    print(f"{regA=}\n{regB=}\n{regC=}")
-    print(','.join(map(str, out)), end='')
-    for p, o in zip(program, out):
-        assert p == o
     print(regA)
 
     return 0
