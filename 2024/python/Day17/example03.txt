@@ -1,0 +1,6 @@
+Reg A: 2024
+Reg B: 29
+Reg C: 43690
+
+Prog: 1,7
+

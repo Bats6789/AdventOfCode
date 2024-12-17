@@ -1,0 +1,6 @@
+Reg A: 10
+Reg B: 2024
+Reg C: 9
+
+Prog: 2,6
+
