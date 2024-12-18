@@ -1,19 +1,9 @@
 2,4: bst 4 => regB = regA % 8 # 0, 1, 2, 3, 4, 5, 6, 7
-1,1: bxl 1 => regB = regB ^ 1 # maps:
-									0 -> 1
-									1 -> 0
-									2 -> 3
-									3 -> 2
-									4 -> 5
-									5 -> 4
-									6 -> 7
-									7 -> 6
+1,1: bxl 1 => regB = regB ^ 1
 7,5: cdv 5 => regC = regA // 2**regB # Shifts to the right regB number of bits
-1,5: bxl 5 => regB = regB ^ 5 # Flips the MSB and LSB of the output
+1,5: bxl 5 => regB = regB ^ 5
 4,3: bxc 3 => regB = regB ^ regC
 0,3: adv 3 => regA = regA // 8 # Needs to be less than 8 on last loop
-                               # Shifts three bits to the right (so regA should be no more
-							   #  than 16*3=48 bits wide)
 5,5: out 5 => out regB % 8
 3,0: jnz 0 => loops program until regA is 0
 
@@ -35,8 +25,17 @@
 0 -> regA should be less than 8 so it stops, and regB should be a multiple of 8 or 0
 regC should be less than 8 as well since regA is less than 8.
 
+out = regB % 8
+out = (regB ^ regC) % 8
+out = ((regB ^ 5) ^ regC) % 8
+out = ((regB ^ 5) ^ (regA // 2**regB)) % 8
+out = ((regB ^ 5) ^ (regA >> regB)) % 8
+out = ((regB ^ 4) ^ (regA // 2**(regB ^ 1))) % 8
+out = ((regB ^ 4) ^ (regA >> (regB ^ 1))) % 8
 out = ((regA % 8 ^ 4) ^ (regA // 2**(regA % 8 ^ 1))) % 8
+out = ((regA % 8 ^ 4) ^ (regA >> (regA % 8 ^ 1))) % 8
         (XOO ^ (regA // 2**(OOX))) % 8
+        (XOO ^ (regA >> (OOX))) % 8
 at 5
 at 3, regA = 7
 at 0, regA = 4
