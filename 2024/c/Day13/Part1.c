@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
     }
 
 	read_line(file, &str); // Read A
-	while (str.len > 0) {
+	while (str.len > 0 && str.str[0] != '\0') {
 		sscanf(str.str, "Button A: X+%"SCNi64", Y+%"SCNi64, &a.x, &a.y);
 
 		read_line(file, &str); // Read B
@@ -115,5 +115,5 @@ uint64_t get_score(point_t prize, point_t a, point_t b) {
 		return 0;
 	}
 
-	return 3 * a_n / det + b_n / det;
+	return 3 * a_n / det - b_n / det;
 }
