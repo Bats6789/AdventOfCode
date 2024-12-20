@@ -1,64 +1,46 @@
+# Solution borrowed from HyperNeutrino (https://www.youtube.com/watch?v=tWhwcORztSY)
 import sys
-import heapq
-
-
-def can_cheat(cheated, cheat, loc):
-    return cheated is False and equal(cheat, loc)
-
-
-def get(grid, pt):
-    return grid[pt[1]][pt[0]]
 
 
 def equal(left, right):
     return left[0] == right[0] and left[1] == right[1]
 
 
-def solve(grid, start, stop, cheat):
-    cheated = False
-    visited = set()
+def get_critical_points(grid):
+    for i, row in enumerate(grid):
+        for j, el in enumerate(row):
+            if el == 'S':
+                start = (j, i)
+            elif el == 'E':
+                stop = (j, i)
 
-    pq = []
+    return (start, stop)
 
-    heapq.heappush(pq, (0, start))
 
+def get_distances(grid, start, stop):
+    dist = list(list(-1 for _ in range(len(grid[0]))) for _ in range(len(grid)))
+    dist[start[1]][start[0]] = 0
     loc = start
-    s = 0
 
-    while len(pq) > 0 and not equal(loc, stop):
-        s, loc = heapq.heappop(pq)
+    while not equal(loc, stop):
+        tmp = (loc[0] - 1, loc[1])
+        if loc[0] > 0 and dist[tmp[1]][tmp[0]] == -1 and grid[tmp[1]][tmp[0]] != '#':
+            dist[tmp[1]][tmp[0]] = dist[loc[1]][loc[0]] + 1
+            loc = tmp
+        tmp = (loc[0] + 1, loc[1])
+        if loc[0] < len(grid[0]) - 1 and dist[tmp[1]][tmp[0]] == -1 and grid[tmp[1]][tmp[0]] != '#':
+            dist[tmp[1]][tmp[0]] = dist[loc[1]][loc[0]] + 1
+            loc = tmp
+        tmp = (loc[0], loc[1] - 1)
+        if loc[1] > 0 and dist[tmp[1]][tmp[0]] == -1 and grid[tmp[1]][tmp[0]] != '#':
+            dist[tmp[1]][tmp[0]] = dist[loc[1]][loc[0]] + 1
+            loc = tmp
+        tmp = (loc[0], loc[1] + 1)
+        if loc[1] < len(grid) - 1 and dist[tmp[1]][tmp[0]] == -1 and grid[tmp[1]][tmp[0]] != '#':
+            dist[tmp[1]][tmp[0]] = dist[loc[1]][loc[0]] + 1
+            loc = tmp
 
-        if equal(loc, stop):
-            break
-
-        visited.add(loc)
-
-        # up
-        new_loc = (loc[0], loc[1] - 1)
-        if (get(grid, new_loc) != '#' or can_cheat(cheated, cheat, new_loc)) and new_loc not in visited:
-            if get(grid, new_loc) == '#':
-                cheated = True
-            heapq.heappush(pq, (s + 1, new_loc))
-        # down
-        new_loc = (loc[0], loc[1] + 1)
-        if (get(grid, new_loc) != '#' or can_cheat(cheated, cheat, new_loc)) and new_loc not in visited:
-            if get(grid, new_loc) == '#':
-                cheated = True
-            heapq.heappush(pq, (s + 1, new_loc))
-        # left
-        new_loc = (loc[0] - 1, loc[1])
-        if (get(grid, new_loc) != '#' or can_cheat(cheated, cheat, new_loc)) and new_loc not in visited:
-            if get(grid, new_loc) == '#':
-                cheated = True
-            heapq.heappush(pq, (s + 1, new_loc))
-        # right
-        new_loc = (loc[0] + 1, loc[1])
-        if (get(grid, new_loc) != '#' or can_cheat(cheated, cheat, new_loc)) and new_loc not in visited:
-            if get(grid, new_loc) == '#':
-                cheated = True
-            heapq.heappush(pq, (s + 1, new_loc))
-
-    return s
+    return dist
 
 
 def main():
@@ -67,27 +49,26 @@ def main():
 
     grid = list(list(line) for line in data.split('\n'))
 
-    for i, row in enumerate(grid):
-        for j, el in enumerate(row):
-            if el == 'S':
-                start = (j, i)
-            elif el == 'E':
-                stop = (j, i)
+    start, stop = get_critical_points(grid)
+
     count = 0
 
-    og = solve(grid, start, stop, (0, 0))
+    dist = get_distances(grid, start, stop)
 
     for i, row in enumerate(grid):
         for j, el in enumerate(row):
-            if el != '#' or j == 0 or i == 0 or j == len(grid[0]) - 1 or i == len(grid) - 1:
+            if el == '#':
                 continue
-
-            cheat = (j, i)
-
-            val = solve(grid, start, stop, cheat)
-
-            if val < og and og - val >= 100:
-                count += 1
+            for radius in range(2, 21):
+                for dr in range(radius + 1):
+                    dc = radius - dr
+                    for nr, nc in {(i + dr, j + dc), (i + dr, j - dc), (i - dr, j + dc), (i - dr, j - dc)}:
+                        if nr < 0 or nc < 0 or nr >= len(grid) or nc >= len(grid[0]):
+                            continue
+                        if grid[nr][nc] == '#':
+                            continue
+                        if dist[i][j] - dist[nr][nc] >= 100 + radius:
+                            count += 1
 
     print(count)
 
