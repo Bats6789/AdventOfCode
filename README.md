@@ -128,3 +128,6 @@ Solutions to Advent of code problems
 ## Python `4/50 🌟`
 * [Day01](2020/python/Day01): `2/2 🌟`
 * [Day02](2020/python/Day02): `2/2 🌟`
+* [Day03](2020/python/Day03): `2/2 🌟`
+* [Day04](2020/python/Day04): `2/2 🌟`
+* [Day05](2020/python/Day05): `2/2 🌟`
