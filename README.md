@@ -123,3 +123,8 @@ Solutions to Advent of code problems
 * [Day23](2023/C/Day23): `2/2 🌟`
 * [Day24](2023/C/Day24): `2/2 🌟`
 * [Day25](2023/C/Day25): `2/2 🌟`
+
+# 2020
+## Python `4/50 🌟`
+* [Day01](2020/python/Day01): `2/2 🌟`
+* [Day02](2020/python/Day02): `2/2 🌟`
