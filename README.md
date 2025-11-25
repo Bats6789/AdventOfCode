@@ -125,9 +125,11 @@ Solutions to Advent of code problems
 * [Day25](2023/C/Day25): `2/2 🌟`
 
 # 2020
-## Python `4/50 🌟`
+## Python `14/50 🌟`
 * [Day01](2020/python/Day01): `2/2 🌟`
 * [Day02](2020/python/Day02): `2/2 🌟`
 * [Day03](2020/python/Day03): `2/2 🌟`
 * [Day04](2020/python/Day04): `2/2 🌟`
 * [Day05](2020/python/Day05): `2/2 🌟`
+* [Day06](2020/python/Day06): `2/2 🌟`
+* [Day07](2020/python/Day07): `2/2 🌟`
