@@ -66,7 +66,7 @@ def solve(string, seqs):
 
 
 @cache
-def compute_length(seq, depth=2):
+def compute_length(seq, depth=25):
     if depth == 1:
         return sum(dir_lengths[(src, tgt)] for src, tgt in zip("A" + seq, seq))
 
