@@ -24,6 +24,7 @@ Solutions to Advent of code problems
 * [Day18](2024/python/Day18): `2/2 🌟`
 * [Day19](2024/python/Day19): `2/2 🌟`
 * [Day20](2024/python/Day20): `2/2 🌟`
+* [Day21](2024/python/Day21): `2/2 🌟`
 
 ## C `38/50 🌟`
 
