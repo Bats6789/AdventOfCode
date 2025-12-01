@@ -1,6 +1,11 @@
 # Advent of Code
 Solutions to Advent of code problems
 
+# 2025
+## Python `2/24 🌟`
+
+* [Day01](2025/python/Day01): `2/2 🌟`
+
 # 2024
 ## Python `47/50 🌟`
 
