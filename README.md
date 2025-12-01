@@ -6,6 +6,14 @@ Solutions to Advent of code problems
 
 * [Day01](2025/python/Day01): `2/2 🌟`
 
+## C `2/24 🌟`
+
+* [Day01](2025/c/Day01): `2/2 🌟`
+
+## Rust `2/24 🌟`
+
+* [Day01](2025/rust/Day01): `2/2 🌟`
+
 # 2024
 ## Python `47/50 🌟`
 
