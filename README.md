@@ -5,6 +5,8 @@ Solutions to Advent of code problems
 ## Python `2/24 🌟`
 
 * [Day01](2025/python/Day01): `2/2 🌟`
+* [Day02](2025/python/Day02): `2/2 🌟`
+* [Day03](2025/python/Day03): `2/2 🌟`
 
 ## C `2/24 🌟`
 
