@@ -1,7 +1,7 @@
 /*
- * Name: Part1.c
+ * Name: Part2.c
  * Auth: Blake Wingard - bats23456789@gmail.com
- * Desc: Part 1 for day 1 of AOC.
+ * Desc: Part 2 for day 1 of AOC.
  * Vers: 1.0.0 12/01/2025 CBW - Original code.
  */
 #include <stdio.h>
