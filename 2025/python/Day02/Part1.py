@@ -1,7 +1,7 @@
 import sys
 
 
-def isPalindrome(val):
+def isInvalid(val):
     valStr = str(val)
     length = len(valStr) // 2
 
@@ -17,7 +17,7 @@ def main():
         idRange = list(map(int, idRange.split('-')))
 
         for i in range(idRange[0], idRange[1] + 1):
-            if isPalindrome(i):
+            if isInvalid(i):
                 total += i
 
     print(total)
