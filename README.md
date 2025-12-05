@@ -15,6 +15,7 @@ Solutions to Advent of code problems
 * [Day01](2025/c/Day01): `2/2 🌟`
 * [Day02](2025/c/Day02): `2/2 🌟`
 * [Day03](2025/c/Day03): `2/2 🌟`
+* [Day04](2025/c/Day04): `2/2 🌟`
 
 ## Rust `2/24 🌟`
 
