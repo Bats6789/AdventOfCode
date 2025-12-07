@@ -20,11 +20,13 @@ Solutions to Advent of code problems
 * [Day04](2025/c/Day04): `2/2 🌟`
 * [Day05](2025/c/Day05): `2/2 🌟`
 
-## Rust `4/24 🌟`
+## Rust `10/24 🌟`
 
 * [Day01](2025/rust/Day01): `2/2 🌟`
 * [Day02](2025/rust/Day02): `2/2 🌟`
 * [Day03](2025/rust/Day03): `2/2 🌟`
+* [Day04](2025/rust/Day04): `2/2 🌟`
+* [Day05](2025/rust/Day05): `2/2 🌟`
 
 # 2024
 ## Python `47/50 🌟`
