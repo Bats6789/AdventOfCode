@@ -2,7 +2,7 @@
 Solutions to Advent of code problems
 
 # 2025
-## Python `16/24 🌟`
+## Python `22/24 🌟`
 
 * [Day01](2025/python/Day01): `2/2 🌟`
 * [Day02](2025/python/Day02): `2/2 🌟`
@@ -12,6 +12,9 @@ Solutions to Advent of code problems
 * [Day06](2025/python/Day06): `2/2 🌟`
 * [Day07](2025/python/Day07): `2/2 🌟`
 * [Day08](2025/python/Day08): `2/2 🌟`
+* [Day09](2025/python/Day09): `2/2 🌟`
+* [Day10](2025/python/Day10): `2/2 🌟`
+* [Day11](2025/python/Day11): `2/2 🌟`
 
 ## C `12/24 🌟`
 
